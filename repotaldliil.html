@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البلاغات والاستفسارات | دليل الدعاة والعلماء</title>
+  
+  <link rel="icon" type="image/jpeg" href="fav.logo.webp.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brandDark: '#0D2B45',
+            brandGold: '#C49A4A',
+            brandGray: '#70767D',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg-primary: #050d14;
+      --bg-glass: rgba(13, 43, 69, 0.6);
+      --glass-border: rgba(196, 154, 74, 0.3);
+      --text-main: #f4f6f8;
+      --card-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.6);
+    }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .futuristic-glass {
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--card-shadow);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-8">
+
+  <!-- Header Section -->
+  <header class="max-w-3xl w-full mx-auto flex items-center justify-between mb-8">
+    <div class="flex items-center gap-3">
+      <img src="logo.jpg" alt="دليل الدعاة والعلماء" class="h-10 w-10 rounded-xl object-cover border border-brandGold/40">
+      <span class="text-xl font-black text-brandGold">دليل الدعاة والعلماء</span>
+    </div>
+
+    <!-- زر العودة للموقع الرئيسي -->
+    <a href="https://dalilalduahwulama.vercel.app/" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brandGold/20 hover:bg-brandGold/30 border border-brandGold/40 text-brandGold font-bold text-sm transition-all transform hover:scale-105">
+      <span>الذهاب للموقع</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+    </a>
+  </header>
+
+  <!-- Main Form Card -->
+  <main class="max-w-2xl w-full mx-auto my-auto">
+    <div class="futuristic-glass rounded-3xl p-6 sm:p-10 border border-brandGold/30 relative overflow-hidden">
+      
+      <!-- Banner / Intro with Explanation Icon -->
+      <div class="flex items-start gap-4 mb-8 bg-brandGold/10 p-4 rounded-2xl border border-brandGold/20">
+        <img src="https://cdn-icons-png.flaticon.com/512/3125/3125856.png" alt="شرح" class="w-10 h-10 object-contain shrink-0">
+        <div>
+          <h1 class="text-2xl font-black text-brandGold mb-1">تقديم بلاغ أو استفسار</h1>
+          <p class="text-sm text-gray-300 leading-relaxed">
+            يسعدنا تواصلكم معنا. يمكنك كتابة استفسارك أو إرسال بلاغك بخصوص محتوى المنصة، ويرجى تزويدنا بوسيلة تواصل واحدة على الأقل (بريد إلكتروني أو رقم هاتف) لنتمكن من الرد عليك.
+          </p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form id="reportForm" class="space-y-6">
+        
+        <!-- Field: Name -->
+        <div>
+          <label class="block mb-2 text-sm font-bold flex items-center gap-2 text-brandGold">
+            <img src="https://cdn-icons-png.flaticon.com/512/4480/4480277.png" alt="الاسم" class="w-5 h-5 object-contain">
+            <span>الاسم الكامل *</span>
+          </label>
+          <input type="text" id="reporterName" required placeholder="أدخل اسمك..." class="w-full p-3.5 rounded-xl bg-white/5 border border-brandGold/30 focus:border-brandGold focus:outline-none transition-all text-white placeholder-gray-500">
+        </div>
+
+        <!-- Section: Contact Info (At least one required) -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-brandGold/20 space-y-4">
+          <p class="text-xs text-amber-400 font-semibold">* يجب ملء حقل واحد على الأقل من وسيلتي التواصل للتواصل معك:</p>
+
+          <!-- Field: Email -->
+          <div>
+            <label class="block mb-2 text-sm font-bold flex items-center gap-2 text-gray-200">
+              <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="البريد الإلكتروني" class="w-5 h-5 object-contain">
+              <span>البريد الإلكتروني</span>
+            </label>
+            <input type="email" id="reporterEmail" placeholder="example@domain.com" class="w-full p-3 rounded-xl bg-white/5 border border-gray-600 focus:border-brandGold focus:outline-none transition-all text-white placeholder-gray-500 text-sm">
+          </div>
+
+          <!-- Field: Phone / WhatsApp -->
+          <div>
+            <label class="block mb-2 text-sm font-bold flex items-center gap-2 text-gray-200">
+              <img src="https://cdn-icons-png.flaticon.com/512/16566/16566143.png" alt="الواتساب / الهاتف" class="w-5 h-5 object-contain">
+              <span>رقم الهاتف / الواتساب</span>
+            </label>
+            <input type="tel" id="reporterPhone" placeholder="010xxxxxxxx أو مع كود الدولة" class="w-full p-3 rounded-xl bg-white/5 border border-gray-600 focus:border-brandGold focus:outline-none transition-all text-white placeholder-gray-500 text-sm">
+          </div>
+        </div>
+
+        <!-- Field: Issue or Inquiry -->
+        <div>
+          <label class="block mb-2 text-sm font-bold flex items-center gap-2 text-brandGold">
+            <img src="https://cdn-icons-png.flaticon.com/512/1450/1450932.png" alt="تفاصيل المشكلة" class="w-5 h-5 object-contain">
+            <span>تفاصيل المشكلة أو الاستفسار *</span>
+          </label>
+          <textarea id="reportMessage" rows="5" required placeholder="اكتب استفسارك أو تفاصيل البلاغ هنا بالتفصيل..." class="w-full p-3.5 rounded-xl bg-white/5 border border-brandGold/30 focus:border-brandGold focus:outline-none transition-all text-white placeholder-gray-500 text-sm leading-relaxed"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-brandGold to-amber-600 hover:from-amber-600 hover:to-brandGold text-white font-extrabold text-lg shadow-xl hover:opacity-95 transition-all transform active:scale-95">
+          إرسال الآن
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-xs text-gray-500">
+    جميع الحقوق محفوظة © منصة دليل الدعاة والعلماء 2026
+  </footer>
+
+  <!-- Firebase Connection Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCo3Fw_Qm5MD9ouJ02PoGcKAaZcxGUK2E",
+      authDomain: "muslim-3483a.firebaseapp.com",
+      databaseURL: "https://muslim-3483a-default-rtdb.firebaseio.com",
+      projectId: "muslim-3483a",
+      storageBucket: "muslim-3483a.firebasestorage.app",
+      messagingSenderId: "543628140761",
+      appId: "1:543628140761:web:15a6b1692b99aa94215ec8",
+      measurementId: "G-0CEJWQLHD0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById('reportForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('reporterName').value.trim();
+      const email = document.getElementById('reporterEmail').value.trim();
+      const phone = document.getElementById('reporterPhone').value.trim();
+      const message = document.getElementById('reportMessage').value.trim();
+
+      // التحقق من إدخال الإيميل أو الهاتف على الأقل
+      if (!email && !phone) {
+        alert("يرجى كتابة البريد الإلكتروني أو رقم الهاتف/الواتساب لتسهيل التواصل معك!");
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerText = "جاري الإرسال...";
+
+      try {
+        await push(ref(db, 'reports'), {
+          name: name,
+          email: email || "غير محدد",
+          phone: phone || "غير محدد",
+          message: message,
+          createdAt: new Date().toLocaleString('ar-EG')
+        });
+
+        alert("تم إرسال بلاغك/استفسارك بنجاح! شكرًا لتواصلك معنا.");
+        form.reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء الإرسال: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "إرسال الآن";
+      }
+    });
+  </script>
+</body>
+</html>
