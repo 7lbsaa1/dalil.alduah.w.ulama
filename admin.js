@@ -1,6 +1,6 @@
 // ==========================================
 // File: admin.js
-// Description: Admin Panel Logic (Full CRUD with Advanced Edit Modal)
+// Description: Admin Panel Logic (Full CRUD with Advanced Edit Modal & TikTok Support)
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -74,12 +74,13 @@ function loadAdminData() {
       const cardHTML = `
         <div class="glass-card p-4 space-y-3 rounded-2xl flex flex-col justify-between">
           <div class="space-y-2">
-            <img src="${data.image || 'logo.WebP'}" class="w-full h-40 object-cover rounded-xl border border-brandGold/30">
+            <img src="${data.image || 'logo.WebP'}" onerror="this.onerror=null; this.src='logo.WebP';" class="w-full h-40 object-cover rounded-xl border border-brandGold/30">
             <h3 class="font-bold text-lg text-[#C49A4A]">${data.name}</h3>
             <div class="flex gap-2 text-xs text-gray-300">
               ${data.socials?.facebook ? '<span>فيسبوك</span>' : ''}
               ${data.socials?.instagram ? '<span>انستجرام</span>' : ''}
               ${data.socials?.youtube ? '<span>يوتيوب</span>' : ''}
+              ${data.socials?.tiktok ? '<span>تيك توك</span>' : ''}
             </div>
           </div>
           <div class="flex gap-2 pt-2 border-t border-white/10">
@@ -131,13 +132,12 @@ function compressImage(file) {
   });
 }
 
-// Global Action: Open Full Edit Modal & Pre-fill Data
+// Global Action: Open Full Edit Modal & Pre-fill Data (Including TikTok)
 window.openEditModal = async (id) => {
   const snapshot = await get(ref(db, `persons/${id}`));
   if (!snapshot.exists()) return;
   const data = snapshot.val();
 
-  // إنشاء النافذة المنبثقة للتعديل إن لم تكن موجودة
   let editModal = document.getElementById('editPersonModal');
   if (!editModal) {
     document.body.insertAdjacentHTML('beforeend', `
@@ -180,6 +180,7 @@ window.openEditModal = async (id) => {
               <input type="url" id="editFacebookUrl" placeholder="رابط فيسبوك" class="w-full p-2.5 rounded-xl bg-white/10 border border-gray-500 text-sm">
               <input type="url" id="editInstagramUrl" placeholder="رابط انستجرام" class="w-full p-2.5 rounded-xl bg-white/10 border border-gray-500 text-sm">
               <input type="url" id="editYoutubeUrl" placeholder="رابط يوتيوب" class="w-full p-2.5 rounded-xl bg-white/10 border border-gray-500 text-sm">
+              <input type="url" id="editTiktokUrl" placeholder="رابط تيك توك" class="w-full p-2.5 rounded-xl bg-white/10 border border-gray-500 text-sm">
             </div>
 
             <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#C49A4A] to-amber-600 text-white font-bold text-lg shadow-xl hover:opacity-95 transition-all mt-4">
@@ -210,7 +211,8 @@ window.openEditModal = async (id) => {
         socials: {
           facebook: document.getElementById('editFacebookUrl').value.trim(),
           instagram: document.getElementById('editInstagramUrl').value.trim(),
-          youtube: document.getElementById('editYoutubeUrl').value.trim()
+          youtube: document.getElementById('editYoutubeUrl').value.trim(),
+          tiktok: document.getElementById('editTiktokUrl').value.trim()
         }
       };
 
@@ -228,12 +230,13 @@ window.openEditModal = async (id) => {
     };
   }
 
-  // تعبئة الحقول بالبيانات الحالية
+  // ملء الحقول بالبيانات الحالية عند الفتح
   document.getElementById('editPersonId').value = id;
   document.getElementById('editPersonName').value = data.name || '';
   document.getElementById('editFacebookUrl').value = data.socials?.facebook || '';
   document.getElementById('editInstagramUrl').value = data.socials?.instagram || '';
   document.getElementById('editYoutubeUrl').value = data.socials?.youtube || '';
+  document.getElementById('editTiktokUrl').value = data.socials?.tiktok || '';
   
   document.getElementById('editImageTypeSelect').value = 'keep';
   document.getElementById('editFileUploadContainer').classList.add('hidden');
