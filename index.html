@@ -149,17 +149,17 @@
           <label class="block text-sm font-bold text-brandGold">روابط التواصل الاجتماعي المتاحة (اختياري)</label>
           
           <div class="flex items-center gap-3">
-            <div class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400"><i data-lucide="facebook" class="w-5 h-5"></i></div>
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="فيسبوك" class="w-6 h-6 object-contain" />
             <input type="url" id="facebookUrl" placeholder="رابط صفحة فيسبوك" class="w-full p-2.5 rounded-xl futuristic-glass border border-brandGold/30 text-sm focus:border-brandGold">
           </div>
 
           <div class="flex items-center gap-3">
-            <div class="p-2.5 rounded-xl bg-pink-600/20 text-pink-400"><i data-lucide="instagram" class="w-5 h-5"></i></div>
+            <img src="https://cdn-icons-png.flaticon.com/512/15707/15707749.png" alt="انستجرام" class="w-6 h-6 object-contain" />
             <input type="url" id="instagramUrl" placeholder="رابط حساب انستجرام" class="w-full p-2.5 rounded-xl futuristic-glass border border-brandGold/30 text-sm focus:border-brandGold">
           </div>
 
           <div class="flex items-center gap-3">
-            <div class="p-2.5 rounded-xl bg-red-600/20 text-red-500"><i data-lucide="youtube" class="w-5 h-5"></i></div>
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174883.png" alt="يوتيوب" class="w-6 h-6 object-contain" />
             <input type="url" id="youtubeUrl" placeholder="رابط قناة يوتيوب" class="w-full p-2.5 rounded-xl futuristic-glass border border-brandGold/30 text-sm focus:border-brandGold">
           </div>
         </div>
@@ -171,7 +171,7 @@
     </div>
   </div>
 
-  <!-- Script logic connecting to Firebase & rendering social links under cards -->
+  <!-- Script logic connecting to Firebase & rendering social links + verification badge under cards -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -262,7 +262,7 @@
       e.target.reset();
     };
 
-    // Render Approved Cards with Social Links Underneath
+    // Render Approved Cards with Verification Badge & Custom Social Icons
     onValue(ref(db, 'persons'), (snapshot) => {
       const grid = document.getElementById('cardsGrid');
       grid.innerHTML = '';
@@ -270,17 +270,26 @@
       snapshot.forEach((child) => {
         const data = child.val();
         if (data.status === 'approved') {
-          // بناء أيقونات السوشيال ميديا المتاحة فقط لتظهر تحت الشخصية
+          // بناء أزرار السوشيال ميديا بالصور المخصصة
           let socialLinksHTML = '';
           if (data.socials) {
             if (data.socials.facebook) {
-              socialLinksHTML += `<a href="${data.socials.facebook}" target="_blank" class="p-2 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white transition-all shadow-sm"><i data-lucide="facebook" class="w-4 h-4"></i></a>`;
+              socialLinksHTML += `
+                <a href="${data.socials.facebook}" target="_blank" class="p-2 rounded-xl bg-white/5 hover:bg-white/20 transition-all shadow-sm transform hover:scale-110">
+                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="فيسبوك" class="w-5 h-5 object-contain" />
+                </a>`;
             }
             if (data.socials.instagram) {
-              socialLinksHTML += `<a href="${data.socials.instagram}" target="_blank" class="p-2 rounded-xl bg-pink-600/20 text-pink-400 hover:bg-pink-600 hover:text-white transition-all shadow-sm"><i data-lucide="instagram" class="w-4 h-4"></i></a>`;
+              socialLinksHTML += `
+                <a href="${data.socials.instagram}" target="_blank" class="p-2 rounded-xl bg-white/5 hover:bg-white/20 transition-all shadow-sm transform hover:scale-110">
+                  <img src="https://cdn-icons-png.flaticon.com/512/15707/15707749.png" alt="انستجرام" class="w-5 h-5 object-contain" />
+                </a>`;
             }
             if (data.socials.youtube) {
-              socialLinksHTML += `<a href="${data.socials.youtube}" target="_blank" class="p-2 rounded-xl bg-red-600/20 text-red-500 hover:bg-red-600 hover:text-white transition-all shadow-sm"><i data-lucide="youtube" class="w-4 h-4"></i></a>`;
+              socialLinksHTML += `
+                <a href="${data.socials.youtube}" target="_blank" class="p-2 rounded-xl bg-white/5 hover:bg-white/20 transition-all shadow-sm transform hover:scale-110">
+                  <img src="https://cdn-icons-png.flaticon.com/512/174/174883.png" alt="يوتيوب" class="w-5 h-5 object-contain" />
+                </a>`;
             }
           }
 
@@ -291,10 +300,14 @@
               </div>
               
               <div class="w-full text-center space-y-3">
-                <h3 class="text-xl font-black text-brandGold tracking-wide">${data.name}</h3>
+                <!-- الاسم وبجانبه علامة التوثيق -->
+                <div class="flex items-center justify-center gap-2">
+                  <h3 class="text-xl font-black text-brandGold tracking-wide">${data.name}</h3>
+                  <img src="https://cdn-icons-png.flaticon.com/128/4823/4823340.png" alt="توثيق" class="w-5 h-5 object-contain inline-block" title="شخصية موثوقة" />
+                </div>
                 
-                <!-- روابط التواصل المتاحة تظهر هنا تحت اسم الشخصية -->
-                <div class="flex items-center justify-center gap-2.5 pt-2 border-t border-brandGold/20 min-h-[45px]">
+                <!-- روابط التواصل المتاحة -->
+                <div class="flex items-center justify-center gap-3 pt-2 border-t border-brandGold/20 min-h-[45px]">
                   ${socialLinksHTML !== '' ? socialLinksHTML : '<span class="text-xs text-gray-400 italic">لا توجد حسابات مضافة</span>'}
                 </div>
               </div>
