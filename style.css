@@ -1,0 +1,53 @@
+/* ==========================================
+// File: style.css
+// Description: Glassmorphism & Theme Styling for Vercel Frontend
+// ========================================== */
+
+:root {
+  --bg-primary: #f4f6f8;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --text-main: #0D2B45;
+  --text-muted: #70767D;
+  --accent-gold: #C49A4A;
+  --card-shadow: 0 8px 32px 0 rgba(13, 43, 69, 0.1);
+}
+
+.dark {
+  --bg-primary: #081a2a;
+  --bg-glass: rgba(13, 43, 69, 0.85);
+  --glass-border: rgba(196, 154, 74, 0.25);
+  --text-main: #f4f6f8;
+  --text-muted: #a0a7b1;
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 1rem;
+}
+
+.btn-gold {
+  background-color: #C49A4A;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background-color: #b0873b;
+  box-shadow: 0 4px 15px rgba(196, 154, 74, 0.4);
+}
