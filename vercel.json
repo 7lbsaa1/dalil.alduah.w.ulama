@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin55681891dsjdskm56adsdnsadid=14.html" }
+  ]
+}
