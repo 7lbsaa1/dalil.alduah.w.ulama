@@ -1,46 +1,54 @@
 // ==========================================
 // File: app.js
-// Description: Frontend Logic & Firebase Base64 Uploader
+// Description: Frontend Logic & Firebase Base64 Uploader (Optimized)
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// Encrypted Firebase Credentials
-const _0x1a = ["QUl6YVN5QkNvM0Z3X1FtNU1Eb3VKMlBvR2NLQWFaY3hHVUtFRQ==", "bXVzbGltLTM0ODNhLmZpcmViYXNlYXBwLmNvbQ==", "bXVzbGltLTM0ODNh", "bXVzbGltLTM0ODNhLmZpcmViYXN0b3JhZ2UuYXBw", "NTQzNjI4MTQwNzYx", "MTo1NDM2MjgxNDA3NjE6d2ViOjE1YTYyMTY5MmI5OWFhOTQyMTVlYzg=", "Ry0wQ0VKV1FMSEQw"];
+// Firebase Configuration Direct
 const firebaseConfig = {
-  apiKey: atob(_0x1a[0]),
-  authDomain: atob(_0x1a[1]),
-  projectId: atob(_0x1a[2]),
-  storageBucket: atob(_0x1a[3]),
-  messagingSenderId: atob(_0x1a[4]),
-  appId: atob(_0x1a[5]),
-  measurementId: atob(_0x1a[6])
+  apiKey: "AIzaSyBCo3Fw_Qm5MD9ouJ02PoGcKAaZcxGUK2E",
+  authDomain: "muslim-3483a.firebaseapp.com",
+  projectId: "muslim-3483a",
+  storageBucket: "muslim-3483a.firebasestorage.app",
+  messagingSenderId: "543628140761",
+  appId: "1:543628140761:web:15a6b1692b99aa94215ec8",
+  measurementId: "G-0CEJWQLHD0"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Dark/Light Theme Switcher
 const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark');
-  lucide.createIcons();
-});
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    if (window.lucide) lucide.createIcons();
+  });
+}
 
-// Modal Logic
+// Modal Toggle Logic
 const modal = document.getElementById('addModal');
-document.getElementById('openModalBtn').onclick = () => modal.classList.remove('hidden');
-document.getElementById('closeModalBtn').onclick = () => modal.classList.add('hidden');
+const openBtn = document.getElementById('openModalBtn');
+const closeBtn = document.getElementById('closeModalBtn');
 
-document.getElementById('imageTypeSelect').addEventListener('change', (e) => {
-  if(e.target.value === 'file') {
-    document.getElementById('fileUploadContainer').classList.remove('hidden');
-    document.getElementById('urlUploadContainer').classList.add('hidden');
-  } else {
-    document.getElementById('fileUploadContainer').classList.add('hidden');
-    document.getElementById('urlUploadContainer').classList.remove('hidden');
-  }
-});
+if (openBtn && modal) openBtn.onclick = () => modal.classList.remove('hidden');
+if (closeBtn && modal) closeBtn.onclick = () => modal.classList.add('hidden');
+
+const imageTypeSelect = document.getElementById('imageTypeSelect');
+if (imageTypeSelect) {
+  imageTypeSelect.addEventListener('change', (e) => {
+    if (e.target.value === 'file') {
+      document.getElementById('fileUploadContainer')?.classList.remove('hidden');
+      document.getElementById('urlUploadContainer')?.classList.add('hidden');
+    } else {
+      document.getElementById('fileUploadContainer')?.classList.add('hidden');
+      document.getElementById('urlUploadContainer')?.classList.remove('hidden');
+    }
+  });
+}
 
 // Image Compressor & Base64 Converter
 function compressAndConvertImage(file) {
@@ -60,63 +68,78 @@ function compressAndConvertImage(file) {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         resolve(canvas.toDataURL('image/jpeg', 0.7));
       };
+      img.onerror = (err) => reject(err);
     };
+    reader.onerror = (err) => reject(err);
   });
 }
 
-// Form Submission
-document.getElementById('addPersonForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = document.getElementById('personName').value;
-  const imageType = document.getElementById('imageTypeSelect').value;
-  let finalImg = '';
+// Form Submission Handling
+const addPersonForm = document.getElementById('addPersonForm');
+if (addPersonForm) {
+  addPersonForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    try {
+      const name = document.getElementById('personName').value;
+      const imageType = document.getElementById('imageTypeSelect').value;
+      let finalImg = '';
 
-  if (imageType === 'file') {
-    const file = document.getElementById('personFile').files[0];
-    if (file) finalImg = await compressAndConvertImage(file);
-  } else {
-    finalImg = document.getElementById('personUrl').value;
-  }
+      if (imageType === 'file') {
+        const fileInput = document.getElementById('personFile');
+        if (fileInput && fileInput.files[0]) {
+          finalImg = await compressAndConvertImage(fileInput.files[0]);
+        }
+      } else {
+        finalImg = document.getElementById('personUrl').value;
+      }
 
-  const socials = {
-    facebook: document.getElementById('facebookUrl').value,
-    instagram: document.getElementById('instagramUrl').value,
-    youtube: document.getElementById('youtubeUrl').value,
-  };
+      const socials = {
+        facebook: document.getElementById('facebookUrl')?.value || '',
+        instagram: document.getElementById('instagramUrl')?.value || '',
+        youtube: document.getElementById('youtubeUrl')?.value || '',
+      };
 
-  await push(ref(db, 'persons'), {
-    name,
-    image: finalImg,
-    socials,
-    status: 'pending'
-  });
+      await push(ref(db, 'persons'), {
+        name,
+        image: finalImg,
+        socials,
+        status: 'pending',
+        createdAt: Date.now()
+      });
 
-  alert("رسالة شكر: سيتم مراجعة بيانات الشخصية ورفعها في أسرع وقت في ميزان حسناتك.");
-  modal.classList.add('hidden');
-  e.target.reset();
-});
-
-// Realtime Rendering from Firebase
-onValue(ref(db, 'persons'), (snapshot) => {
-  const cardsGrid = document.getElementById('cardsGrid');
-  cardsGrid.innerHTML = '';
-  snapshot.forEach((child) => {
-    const data = child.val();
-    if (data.status === 'approved') {
-      cardsGrid.innerHTML += `
-        <div class="glass-card p-4 flex flex-col items-center gap-4 group">
-          <div class="relative w-full h-60 rounded-lg overflow-hidden">
-            <img src="${data.image}" alt="${data.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-            <div class="absolute bottom-2 right-2 flex gap-2 bg-black/60 p-2 rounded-lg backdrop-blur-md">
-              ${data.socials?.facebook ? `<a href="${data.socials.facebook}" target="_blank"><i data-lucide="facebook" class="text-blue-400 w-5 h-5"></i></a>` : ''}
-              ${data.socials?.instagram ? `<a href="${data.socials.instagram}" target="_blank"><i data-lucide="instagram" class="text-pink-400 w-5 h-5"></i></a>` : ''}
-              ${data.socials?.youtube ? `<a href="${data.socials.youtube}" target="_blank"><i data-lucide="youtube" class="text-red-500 w-5 h-5"></i></a>` : ''}
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-[#C49A4A]">${data.name}</h3>
-        </div>
-      `;
+      alert("رسالة شكر: سيتم مراجعة بيانات الشخصية ورفعها في أسرع وقت في ميزان حسناتك.");
+      if (modal) modal.classList.add('hidden');
+      addPersonForm.reset();
+    } catch (error) {
+      alert("حدث خطأ أثناء رفع البيانات: " + error.message);
     }
   });
-  lucide.createIcons();
-});
+}
+
+// Realtime Rendering for Main Page Cards
+const cardsGrid = document.getElementById('cardsGrid');
+if (cardsGrid) {
+  onValue(ref(db, 'persons'), (snapshot) => {
+    cardsGrid.innerHTML = '';
+    snapshot.forEach((child) => {
+      const data = child.val();
+      if (data.status === 'approved') {
+        cardsGrid.innerHTML += `
+          <div class="glass-card p-4 flex flex-col items-center gap-4 group">
+            <div class="relative w-full h-60 rounded-lg overflow-hidden">
+              <img src="${data.image || 'logo.WebP'}" alt="${data.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute bottom-2 right-2 flex gap-2 bg-black/60 p-2 rounded-lg backdrop-blur-md">
+                ${data.socials?.facebook ? `<a href="${data.socials.facebook}" target="_blank"><i data-lucide="facebook" class="text-blue-400 w-5 h-5"></i></a>` : ''}
+                ${data.socials?.instagram ? `<a href="${data.socials.instagram}" target="_blank"><i data-lucide="instagram" class="text-pink-400 w-5 h-5"></i></a>` : ''}
+                ${data.socials?.youtube ? `<a href="${data.socials.youtube}" target="_blank"><i data-lucide="youtube" class="text-red-500 w-5 h-5"></i></a>` : ''}
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-[#C49A4A]">${data.name}</h3>
+          </div>
+        `;
+      }
+    });
+    if (window.lucide) lucide.createIcons();
+  });
+}
