@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة البلاغات والاستفسارات | دليل الدعاة والعلماء</title>
+
+  <link rel="icon" type="image/jpeg" href="fav.logo.webp.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brandDark: '#0D2B45',
+            brandGold: '#C49A4A',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #050d14;
+      color: #f4f6f8;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .glass-card {
+      background: rgba(13, 43, 69, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(196, 154, 74, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto flex items-center justify-between pb-6 mb-8 border-b border-brandGold/30">
+    <div class="flex items-center gap-3">
+      <img src="logo.jpg" alt="دليل الدعاة والعلماء" class="h-10 w-10 rounded-xl object-cover border border-brandGold/40">
+      <h1 class="text-2xl font-black text-brandGold">لوحة إدارية: البلاغات والاستفسارات</h1>
+    </div>
+    <a href="https://dalilalduahwulama.vercel.app/" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold transition-all">
+      الذهاب للموقع الرئيسية
+    </a>
+  </header>
+
+  <!-- Reports Grid Container -->
+  <main class="max-w-6xl mx-auto">
+    <div id="reportsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="col-span-full text-center py-12 text-gray-400">
+        جاري تحميل البلاغات والاستفسارات...
+      </div>
+    </div>
+  </main>
+
+  <!-- Firebase Database Listener -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCo3Fw_Qm5MD9ouJ02PoGcKAaZcxGUK2E",
+      authDomain: "muslim-3483a.firebaseapp.com",
+      databaseURL: "https://muslim-3483a-default-rtdb.firebaseio.com",
+      projectId: "muslim-3483a",
+      storageBucket: "muslim-3483a.firebasestorage.app",
+      messagingSenderId: "543628140761",
+      appId: "1:543628140761:web:15a6b1692b99aa94215ec8",
+      measurementId: "G-0CEJWQLHD0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const reportsGrid = document.getElementById('reportsGrid');
+
+    // الاستماع اللحظي للبلاغات الواردة
+    onValue(ref(db, 'reports'), (snapshot) => {
+      reportsGrid.innerHTML = '';
+
+      if (!snapshot.exists()) {
+        reportsGrid.innerHTML = `
+          <div class="col-span-full text-center py-16 glass-card rounded-3xl text-gray-400 font-bold">
+            لا توجد بلاغات أو استفسارات مسجلة حالياً 🎉
+          </div>`;
+        return;
+      }
+
+      snapshot.forEach((child) => {
+        const id = child.key;
+        const data = child.val();
+
+        reportsGrid.innerHTML += `
+          <div class="glass-card p-6 rounded-3xl space-y-4 relative flex flex-col justify-between">
+            <div class="space-y-3">
+              
+              <!-- Header Card Info -->
+              <div class="flex items-center justify-between pb-3 border-b border-brandGold/20">
+                <div class="flex items-center gap-2">
+                  <img src="https://cdn-icons-png.flaticon.com/512/4480/4480277.png" class="w-5 h-5 object-contain">
+                  <span class="font-extrabold text-brandGold text-lg">${data.name}</span>
+                </div>
+                <span class="text-xs text-gray-400">${data.createdAt || ''}</span>
+              </div>
+
+              <!-- Contact Info -->
+              <div class="space-y-1.5 text-sm">
+                <div class="flex items-center gap-2 text-gray-300">
+                  <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" class="w-4 h-4 object-contain">
+                  <span><b>البريد:</b> ${data.email}</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-300">
+                  <img src="https://cdn-icons-png.flaticon.com/512/16566/16566143.png" class="w-4 h-4 object-contain">
+                  <span><b>الهاتف / الواتساب:</b> ${data.phone}</span>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="p-3.5 rounded-2xl bg-white/5 border border-brandGold/10 mt-3">
+                <div class="flex items-center gap-2 mb-1 text-xs text-brandGold font-bold">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1450/1450932.png" class="w-4 h-4 object-contain">
+                  <span>نص الاستفسار / المشكلة:</span>
+                </div>
+                <p class="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">${data.message}</p>
+              </div>
+
+            </div>
+
+            <!-- Delete Action -->
+            <button onclick="deleteReport('${id}')" class="mt-4 w-full py-2.5 rounded-xl bg-red-600/80 hover:bg-red-600 text-white font-bold text-sm transition-all">
+              حذف هذا البلاغ
+            </button>
+          </div>
+        `;
+      });
+    });
+
+    // حذف بلاغ
+    window.deleteReport = (id) => {
+      if (confirm("هل أنت تأكد من حذف هذا البلاغ؟")) {
+        remove(ref(db, `reports/${id}`));
+      }
+    };
+  </script>
+</body>
+</html>
