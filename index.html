@@ -1,0 +1,121 @@
+<!-- ==========================================
+// File: index.html
+// Description: Main Vercel Frontend Page
+// ========================================== -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دُعاة | دليل الدعاة والعلماء المسلمين ومقارني الأديان</title>
+  <meta name="description" content="اكتشف دليل الدعاة والعلماء المسلمين، وتعرّف على سيرتهم وتخصصاتهم ومحاضراتهم وروابط حساباتهم الرسمية في منصة دُعاة.">
+  <meta name="keywords" content="محمد متولي الشعراوي, محمد حسان, محمد حسين يعقوب, مصطفى حسني, عمرو خالد, عائض القرني, نبيل العوضي, عمر عبد الكافي, طارق السويدان, راتب النابلسي, عثمان الخميس, صالح المغامسي, سعد العتيق, عبد الرزاق البدر, صالح الفوزان, عبد العزيز بن باز, محمد بن صالح العثيمين, صالح آل الشيخ, ياسر الدوسري, ماهر المعيقلي, عبد الرحمن السديس, مشاري العفاسي, إدريس أبكر, خالد الجليل, بدر المشاري, أبو إسحاق الحويني, أحمد السيد, إياد قنيبي, هاني حلمي, حازم شومان, دعوة, دعاه, دعاة, الدعوة الإسلامية, الدعاة المسلمين, الداعية الإسلامي, علماء المسلمين, العلم الشرعي, القرآن الكريم, تفسير القرآن, علوم القرآن, السنة النبوية, الحديث الشريف, الفقه الإسلامي, العقيدة الإسلامية, السيرة النبوية, الأذكار, الأدعية, الدعاء, التوحيد, الإيمان, الإسلام, المسلمون, المسلمين, الوعظ والإرشاد, الخطابة, الدروس الدينية, المحاضرات الإسلامية, الخطب, خطب الجمعة, المساجد, طلب العلم, طلاب العلم, الدعوة إلى الله, نشر الإسلام, تعليم القرآن, تحفيظ القرآن, تجويد القرآن, التفسير, الحديث, الفقه, أصول الفقه, علوم الحديث, السيرة, الأخلاق الإسلامية, الآداب الإسلامية, التربية الإسلامية, الوسطية, الاعتدال, الرحمة, الصبر, التقوى, الاستغفار, التوبة, الذكر, قيام الليل, صلاة الفجر, الصلاة, الزكاة, الصيام, الحج, العمرة, رمضان, ليلة القدر, يوم الجمعة, قصص الأنبياء, قصص الصحابة, الصحابة, التابعون, أمهات المؤمنين, السيرة العطرة, الإعجاز القرآني, التدبر, خواطر إيمانية, موعظة, موعظة مؤثرة, كلمة طيبة, نصيحة دينية, فتاوى إسلامية, أسئلة دينية, أحكام شرعية, تعلم الدين, تعليم الإسلام, المحتوى الإسلامي, منصة إسلامية, دليل الدعاة, دليل العلماء, دليل المشايخ, دعاة مصر, دعاة العالم الإسلامي, دعاة معاصرون, علماء الأزهر, خطباء المساجد, محاضرات دينية, دروس إيمانية, قناة إسلامية, بودكاست إسلامي, مكتبة إسلامية, مواقع إسلامية, التواصل مع الدعاة, البحث عن داعية, علم نافع, العمل الصالح">
+  
+  <!-- Encrypted Google Search Console Verification -->
+  <script>
+    (function(){
+      const enc = "dkprRkJyZ2RBUGwzLXVDWTZXWFQ1YThYOE10V3M3bTJtbEU=";
+      const meta = document.createElement('meta');
+      meta.name = "google-site-verification";
+      meta.content = atob(enc);
+      document.head.appendChild(meta);
+    })();
+  </script>
+
+  <link rel="icon" type="image/jpeg" href="fac.logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 glass-card mx-4 my-2 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="logo.WebP" alt="دُعاة" class="h-10 w-auto rounded-md object-cover" />
+      <span class="text-xl font-bold tracking-wide text-[#C49A4A]">دُعاة</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button id="openModalBtn" class="btn-gold px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+        <i data-lucide="plus-circle" class="w-5 h-5"></i>
+        <span>إضافة شخصية</span>
+      </button>
+
+      <button id="themeToggle" class="p-2 rounded-lg glass-card text-[#C49A4A] hover:opacity-80">
+        <i id="themeIcon" data-lucide="sun" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Title & Description -->
+  <section class="text-center py-12 px-4 max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-extrabold text-[#C49A4A] mb-4">دُعاة</h1>
+    <p class="text-lg md:text-2xl text-[#70767D] dark:text-gray-300 font-medium leading-relaxed">
+      تعرّف على أفضل الدعاة ورجال الدين ومقارني الأديان، واستكشف سيرتهم وروابط حساباتهم الرسمية.
+    </p>
+  </section>
+
+  <!-- Dynamic Cards Grid -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+    <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Person cards will be loaded here dynamically -->
+    </div>
+  </main>
+
+  <!-- Add Person Modal -->
+  <div id="addModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full p-6 relative text-right max-h-[90vh] overflow-y-auto">
+      <button id="closeModalBtn" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+      <h2 class="text-2xl font-bold text-[#C49A4A] mb-4">إضافة شخصية جديدة</h2>
+      
+      <form id="addPersonForm" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium">اسم الشخصية *</label>
+          <input type="text" id="personName" required class="w-full p-2.5 rounded-lg bg-white/10 border border-gray-500 text-white focus:outline-none focus:border-[#C49A4A]">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">طريقة إضافة الصورة</label>
+          <select id="imageTypeSelect" class="w-full p-2.5 rounded-lg bg-white/10 border border-gray-500 focus:outline-none focus:border-[#C49A4A]">
+            <option value="file" class="text-black">رفع صورة من الجهاز</option>
+            <option value="url" class="text-black">رابط صورة (URL)</option>
+          </select>
+        </div>
+
+        <div id="fileUploadContainer">
+          <label class="block mb-1 text-sm font-medium">اختر صورة من الجهاز</label>
+          <input type="file" id="personFile" accept="image/*" class="w-full p-2 rounded-lg bg-white/10 border border-gray-500">
+        </div>
+
+        <div id="urlUploadContainer" class="hidden">
+          <label class="block mb-1 text-sm font-medium">رابط الصورة (URL)</label>
+          <input type="url" id="personUrl" class="w-full p-2.5 rounded-lg bg-white/10 border border-gray-500 focus:outline-none focus:border-[#C49A4A]">
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <label class="block text-sm font-medium text-[#C49A4A]">روابط التواصل الاجتماعي المتاحة</label>
+          <div class="flex items-center gap-2">
+            <i data-lucide="facebook" class="w-5 h-5 text-blue-500"></i>
+            <input type="url" id="facebookUrl" placeholder="رابط فيسبوك" class="w-full p-2 rounded-lg bg-white/10 border border-gray-500 text-sm">
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="instagram" class="w-5 h-5 text-pink-500"></i>
+            <input type="url" id="instagramUrl" placeholder="رابط انستجرام" class="w-full p-2 rounded-lg bg-white/10 border border-gray-500 text-sm">
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="youtube" class="w-5 h-5 text-red-500"></i>
+            <input type="url" id="youtubeUrl" placeholder="رابط يوتيوب" class="w-full p-2 rounded-lg bg-white/10 border border-gray-500 text-sm">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full btn-gold py-3 rounded-lg font-bold mt-4">رفع البيانات</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
