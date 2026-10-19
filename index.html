@@ -128,11 +128,11 @@
   <!-- Main Grid Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
     <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      <!-- يتم تحميل البطاقات ديناميكياً هنا -->
+      <!-- يتم تحميل البطاقات ديناميكياً هنا بدون تداخل مع بقية الصفحة -->
     </div>
   </main>
 
-  <!-- SEO Keywords Text Container (Optimized for Search Engines Indexing) -->
+  <!-- SEO Keywords Text Container -->
   <section class="sr-only" aria-hidden="true">
     <h2>أبرز العلماء والدعاة في دليل الدعاة والعلماء</h2>
     <p>
@@ -224,7 +224,7 @@
     </div>
   </div>
 
-  <!-- Script logic connecting to Firebase & rendering cards with Real-time Search -->
+  <!-- Firebase Script Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -242,7 +242,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    let approvedPersonsList = []; // مصفوفة لتخزين الشخصيات المقبولة للبحث اللحظي
+    let approvedPersonsList = [];
 
     // Theme Switcher
     const themeToggle = document.getElementById('themeToggle');
@@ -318,12 +318,11 @@
       e.target.reset();
     };
 
-    // دالة عرض بطاقات الشخصيات المفلترة
+    // دالة عرض بطاقات الشخصيات الآمنة والنظيفة
     function renderCards(personsToRender) {
       const grid = document.getElementById('cardsGrid');
-      grid.innerHTML = '';
 
-      if (personsToRender.length === 0) {
+      if (!personsToRender || personsToRender.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 futuristic-glass rounded-3xl p-8 border border-brandGold/30">
             <p class="text-xl font-bold text-brandGold mb-2">لم يتم العثور على أي نتائج</p>
@@ -332,6 +331,8 @@
         `;
         return;
       }
+
+      let generatedCardsHTML = '';
 
       personsToRender.forEach((data) => {
         let socialLinksHTML = '';
@@ -364,7 +365,7 @@
 
         const displayImage = data.image && data.image !== '' ? data.image : 'logo.jpg';
 
-        grid.innerHTML += `
+        generatedCardsHTML += `
           <div class="futuristic-glass rounded-3xl p-5 flex flex-col items-center gap-4 neon-glow transition-all duration-300">
             <div class="w-full h-64 rounded-2xl overflow-hidden relative shadow-inner bg-black/20">
               <img src="${displayImage}" 
@@ -386,7 +387,9 @@
           </div>
         `;
       });
-      lucide.createIcons();
+
+      grid.innerHTML = generatedCardsHTML;
+      if (window.lucide) lucide.createIcons();
     }
 
     // Render Approved Cards with Firebase Listener
@@ -398,11 +401,10 @@
           approvedPersonsList.push(data);
         }
       });
-      // عرض كافة الشخصيات المقبولة بدئياً
       renderCards(approvedPersonsList);
     });
 
-    // إضافةحدث الاستماع لمربع البحث (Search Event)
+    // إضافة حدث البحث اللحظي
     document.getElementById('searchInput').addEventListener('input', (e) => {
       const searchTerm = e.target.value.trim().toLowerCase();
       const filteredPersons = approvedPersonsList.filter(person => 
